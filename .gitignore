@@ -3,3 +3,5 @@
 /experiments/*/results
 /experiments/*/machines.json
 /experiments/*/docker-compose-placement.yml
+
+.cursorignore

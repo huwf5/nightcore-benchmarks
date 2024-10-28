@@ -1,0 +1,40 @@
+#!/bin/bash
+ALIYUN_REGION="cn-hongkong"
+ALIYUN_REGION_ID="cn-hongkong"
+PLACEMENT_GROUP_NAME="nightcore-experiments"
+SECURITY_GROUP_NAME="nightcore"
+
+echo "Provisioning..."
+echo "  Creating deployment set..."
+# Create Deployment Set
+DeploymentSetId=$(
+    aliyun ecs CreateDeploymentSet --region $ALIYUN_REGION --RegionId $ALIYUN_REGION_ID \
+    --Strategy LowLatency --DeploymentSetName $PLACEMENT_GROUP_NAME | jq -r '.DeploymentSetId'
+)
+echo "    Deployment set created: $DeploymentSetId"
+
+# Create Security Group
+echo "  Creating security group..."
+SecurityGroupId=$(
+    aliyun ecs CreateSecurityGroup --region $ALIYUN_REGION --RegionId $ALIYUN_REGION_ID \
+    --SecurityGroupName $SECURITY_GROUP_NAME --Description 'Nightcore experiments' | jq -r '.SecurityGroupId'
+)
+echo "    Security group created: $SecurityGroupId"
+
+# Allow all internal traffic within the newly create security group
+echo "  Allowing all internal traffic within the newly create security group..."
+aliyun ecs ModifySecurityGroupPolicy --region $ALIYUN_REGION --RegionId $ALIYUN_REGION_ID \
+    --SecurityGroupId $SecurityGroupId --InnerAccessPolicy Accept > /dev/null
+echo "    All internal traffic within the newly create security group allowed"
+
+LOCAL_IP=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
+
+# Allow SSH traffic from current machine to the newly create security group
+echo "  Allowing SSH traffic from current machine to the newly create security group..."
+aliyun ecs AuthorizeSecurityGroup --region $ALIYUN_REGION --RegionId $ALIYUN_REGION_ID \
+    --SecurityGroupId $SecurityGroupId \
+    --Permissions.1.Policy accept --Permissions.1.IpProtocol tcp --Permissions.1.SourceCidrIp ${LOCAL_IP}/32 \
+    --Permissions.1.PortRange 22/22 --force > /dev/null
+echo "    SSH traffic from current machine to the newly create security group allowed"
+
+echo "Provisioning complete"
