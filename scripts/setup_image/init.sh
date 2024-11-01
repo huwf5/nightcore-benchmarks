@@ -16,6 +16,19 @@ bash ./install_docker.sh
 # add the current user to the docker group
 sudo usermod -aG docker $USER
 
+# install jq
+sudo apt-get install -y jq
+
+# install wrk 
+sudo apt-get install -y libssl-dev
+
+git clone https://github.com/giltene/wrk2.git
+pushd wrk2
+make -j $(nproc)
+sudo cp wrk /usr/local/bin/
+popd
+rm -rf wrk2
+
 # clear the apt cache
 sudo apt-get clean -y
 sudo rm -rf /var/log/*

@@ -2,7 +2,7 @@
 BASE_DIR=`realpath $(dirname $0)`
 ROOT_DIR=`realpath $BASE_DIR/../..`
 
-HELPER_SCRIPT=$ROOT_DIR/scripts/exp_helper
+HELPER_SCRIPT=$ROOT_DIR/scripts/aliyun/aliyun_exp_helper
 
 $HELPER_SCRIPT start-machines
 

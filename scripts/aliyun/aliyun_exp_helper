@@ -13,7 +13,7 @@ import subprocess as sp
 ALIYUN_REGION = 'cn-hongkong'
 ALIYUN_REGION_ID = 'cn-hongkong'
 # TODO: export image to public
-IMAGE_ID = 'm-j6c8afni7d7v37e89s39'
+IMAGE_ID = 'm-j6cgzzre0mdvp9k41fy3'
 SECURITY_GROUP_NAME = 'nightcore'
 DEPLOYMENT_SET_NAME = 'nightcore-experiments'
 ZONE_ID = 'cn-hongkong-d'
@@ -231,7 +231,12 @@ def get_service_host_main(base_dir, service_name):
     with open(os.path.join(base_dir, 'machines.json')) as fin:
         machine_infos = json.load(fin)
     machine = config['services'][service_name]['placement']
-    print(machine_infos[machine]['dns'])
+    if service_name == 'nightcore-gateway':
+        # for nightcore-gateway, we use the ip address instead of the dns name
+        # because the dns name is not accessible from the client machine
+        print(machine_infos[machine]['ip'])
+    else:
+        print(machine_infos[machine]['dns'])
 
 def get_docker_manager_host_main(base_dir):
     if not os.path.exists(os.path.join(base_dir, 'machines.json')):

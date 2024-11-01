@@ -1,10 +1,10 @@
 {
     "machines": {
-        "nightcore-hr-gateway": { "type": "c5.2xlarge", "role": "worker" },
-        "nightcore-hr-middle": { "type": "c5.2xlarge", "role": "manager" },
-        "nightcore-hr-mongodb": { "type": "c5.2xlarge", "role": "worker" },
-        "nightcore-hr-cache": { "type": "c5.2xlarge", "role": "worker" },
-        "nightcore-hr-client": { "type": "c5.xlarge", "role": "client" }
+        "nightcore-hr-gateway": { "type": "ecs.hfr8i.2xlarge", "role": "worker" },
+        "nightcore-hr-middle": { "type": "ecs.hfr8i.2xlarge", "role": "manager" },
+        "nightcore-hr-mongodb": { "type": "ecs.hfr8i.2xlarge", "role": "worker" }, 
+        "nightcore-hr-cache": { "type": "ecs.hfr8i.2xlarge", "role": "worker" },
+        "nightcore-hr-client": { "type": "ecs.hfr8i.xlarge", "role": "client" }
     },
     "services": {
         "nightcore-gateway": { "placement": "nightcore-hr-gateway" },

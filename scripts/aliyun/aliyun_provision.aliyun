@@ -27,7 +27,7 @@ aliyun ecs ModifySecurityGroupPolicy --region $ALIYUN_REGION --RegionId $ALIYUN_
     --SecurityGroupId $SecurityGroupId --InnerAccessPolicy Accept > /dev/null
 echo "    All internal traffic within the newly create security group allowed"
 
-LOCAL_IP=$(ip addr | grep 'state UP' -A4 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
+LOCAL_IP=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
 
 # Allow SSH traffic from current machine to the newly create security group
 echo "  Allowing SSH traffic from current machine to the newly create security group..."

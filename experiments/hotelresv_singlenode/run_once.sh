@@ -6,7 +6,7 @@ EXP_DIR=$BASE_DIR/results/$1
 QPS=$2
 
 SRC_DIR=$ROOT_DIR/workloads/DeathStarBench/hotelReservation
-HELPER_SCRIPT=$ROOT_DIR/scripts/exp_helper
+HELPER_SCRIPT=$ROOT_DIR/scripts/aliyun/aliyun_exp_helper
 WRK_BIN=/usr/local/bin/wrk
 WRK_SCRIPT=mixed-workload_type_1.lua
 
